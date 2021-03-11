@@ -12,4 +12,3 @@ if key == 27:
 elif key == ord('s'):
     cv2.imwrite('../Images/saved_image.png', image)
     cv2.destroyAllWindows()
-
