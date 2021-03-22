@@ -4,11 +4,11 @@ import cv2
 # python code.py -i image.png
 
 # Set Up parameters from console
-parser = ap.ArgumentParser()
+'''parser = ap.ArgumentParser()
 parser.add_argument('-i', '--image', required=True, help='Insert Image Name')
 args = vars(parser.parse_args())
 image_path = args['image']
-image_path = '../Images/'+image_path
+image_path = '../Images/'+image_path'''
 
 # File Path to Image
 image = cv2.imread(image_path, 0)
