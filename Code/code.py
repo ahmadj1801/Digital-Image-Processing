@@ -11,16 +11,28 @@ image_path = args['image']
 image_path = '../Images/'+image_path'''
 
 # Path to Image
-image_path = '../Images/maradona.jpg'
-# File Path to Image
-image = cv2.imread(image_path, 0)
-# Set Up Window
-cv2.imshow('Digital Image Processing', image)
+image_path = '../Images/graph.gif'
 
-key = cv2.waitKey(0)
-# Exit Keys (Esc - Quit) (S - Save and Quit)
-if key == 27:
-    cv2.destroyAllWindows()
-elif key == ord('s'):
-    cv2.imwrite('../Images/saved_image.png', image)
-    cv2.destroyAllWindows()
+extension = image_path[-3::]
+if extension == "mp4" or extension == "gif":
+    vid = cv2.VideoCapture(image_path)
+    while vid.isOpened():
+        ret, frame = vid.read()
+        if ret:
+            cv2.imshow('Digital Image Processing', frame)
+            if cv2.waitKey(20) & 0xFF == ord('q'):
+                break
+    vid.release()
+else:
+    # File Path to Image
+    image = cv2.imread(image_path, 0)
+    # Set Up Window
+    cv2.imshow('Digital Image Processing', image)
+
+    key = cv2.waitKey(0)
+    # Exit Keys (q - Quit) (S - Save and Quit)
+    if key == ord('q'):
+        cv2.destroyAllWindows()
+    elif key == ord('s'):
+        cv2.imwrite('../Images/saved_image.png', image)
+        cv2.destroyAllWindows()
