@@ -10,7 +10,8 @@ args = vars(parser.parse_args())
 image_path = args['image']
 image_path = '../Images/'+image_path'''
 
-image_path = '../Images/image1.jpg'
+# Path to Image
+image_path = '../Images/maradona.jpg'
 # File Path to Image
 image = cv2.imread(image_path, 0)
 # Set Up Window
