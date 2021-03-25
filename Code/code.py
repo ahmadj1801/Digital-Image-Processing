@@ -5,12 +5,12 @@ import sys
 
 def click(event, x, y, flags, param):
     global image
-    if event == cv2.EVENT_LBUTTONDBLCLK:
+    if event == cv2.EVENT_LBUTTONDOWN:
         blue, green, red = image[y, x]
-        print('Colours at [', x, ', ', y, '] = < ', red, ', ', green, ', ', blue, ' >')
+        print('<R, G, B> Values at [', x, ', ', y, '] = <', red, ',', green, ',', blue, '>')
 
 
-media_path = '../Images/graph.gif'
+media_path = '../Images/f1.jpeg'
 extension = media_path[-3::]
 video_formats = ['gif', 'mp4']
 
