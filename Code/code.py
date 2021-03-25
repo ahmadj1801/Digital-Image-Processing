@@ -11,7 +11,7 @@ def on_left_click(event, x, y, flags, param):
     if event == cv2.EVENT_LBUTTONDOWN:
         # OpenCV uses Colours as BGR
         blue, green, red = image[y, x]
-        print('<R, G, B> Values at [', x, ', ', y, '] = <', red, ',', green, ',', blue, '>')
+        print('<R, G, B> Values at [{}, {}] = <{}, {}, {}>'.format(x, y, red, green, blue))
 
 
 # Path to image/gif/video
