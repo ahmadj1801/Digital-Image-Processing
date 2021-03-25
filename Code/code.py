@@ -15,7 +15,7 @@ def on_left_click(event, x, y, flags, param):
 
 
 # Path to image/gif/video
-media_path = '../Images/f1.jpeg'
+media_path = '../Images/maradona.jpg'
 # Extract the file extension
 extension = media_path[-3::]
 # Video formats
@@ -27,6 +27,9 @@ if extension not in video_formats:
     cv2.namedWindow("Digital Image Processing")
     cv2.setMouseCallback("Digital Image Processing", on_left_click)
     image = cv2.imread(media_path)
+    print('(Rows, Columns, Channels) = ', image.shape)
+    print('Number of Pixels = ', image.size)
+    print('Pixel Depth = ', image.dtype)
     # Display
     while True:
         cv2.imshow("Digital Image Processing", image)
