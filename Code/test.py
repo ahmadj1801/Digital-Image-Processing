@@ -1,7 +1,13 @@
 import numpy as np
 import cv2
+import sys
 
 cap = cv2.VideoCapture('../Images/maradona.jpg')
+
+if not cap.isOpened():
+    print('Failed To Open!')
+    sys.exit()
+
 while cap.isOpened():
     ret, frame = cap.read()
     if ret:
@@ -15,3 +21,4 @@ while cap.isOpened():
 
 cap.release()
 cv2.destroyAllWindows()
+sys.exit()
