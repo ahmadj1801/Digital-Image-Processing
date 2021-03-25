@@ -15,7 +15,7 @@ def on_left_click(event, x, y, flags, param):
 
 
 # Path to image/gif/video
-media_path = '../Images/maradona.jpg'
+media_path = '../Images/f1.jpeg'
 # Extract the file extension
 extension = media_path[-3::]
 # Video formats
