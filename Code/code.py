@@ -16,7 +16,7 @@ def on_left_click(event, x, y, flags, param):
 
 
 def set_intensity_matrix():
-    global image, image_matrix
+    global image, image_matrix, int_freq
     a = image.shape[0]
     b = image.shape[1]
     for y in range(0, a):
@@ -32,8 +32,27 @@ def print_intensity_matrix():
         print(row)
 
 
+def init_freq_dict():
+    global int_freq
+    int_freq = dict().fromkeys(range(0, 256))
+    for i in int_freq:
+        if int_freq.get(i) is None:
+            int_freq[i] = 0
+
+
+def set_freq_dict():
+    global int_freq
+    for i in image_matrix:
+        for j in i:
+            int_freq[j] = int_freq.get(j) + 1
+
+
 # Intensity Matrix
 image_matrix = []
+# Histogram Dict
+int_freq = dict()
+init_freq_dict()
+
 # Path to image/gif/video
 media_path = '../Images/maradona.jpg'
 # Extract the file extension
@@ -50,9 +69,13 @@ if extension not in video_formats:
     print('(Rows, Columns, Channels) = ', image.shape)
     print('Number of Pixels = ', image.size)
     print('Pixel Depth = ', image.dtype)
+
     # Set the Matrix
     set_intensity_matrix()
-    print_intensity_matrix()
+    # Count Frequencies
+    set_freq_dict()
+    # print_intensity_matrix()
+
     # Display
     while True:
         cv2.imshow("Digital Image Processing", image)
