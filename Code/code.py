@@ -78,7 +78,7 @@ int_freq = dict()
 init_freq_dict()
 
 # Path to image/gif/video
-media_path = '../Images/maradona.jpg'
+media_path = '../Images/leaf.jpg'
 # Extract the file extension
 extension = media_path[-3::]
 # Video formats
@@ -105,13 +105,14 @@ if extension not in video_formats:
     # Display
     while True:
         cv2.imshow("Digital Image Processing", image)
-        # ans = input('Would you like to see the Negative Image? (y/n)')
-        # if ans[0] == 'y':
-        # negative_image()
         # Key to Exit
         key = cv2.waitKey(1)
         if key == ord('q'):
             break
+        elif key == ord('n'):
+            negative_image()
+        else:
+            pass
 else:
     # GIF/VIDEO
     window = cv2.VideoCapture(media_path)
