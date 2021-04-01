@@ -6,16 +6,36 @@ import sys
 # Callback Function - On Left Click
 def on_left_click(event, x, y, flags, param):
     # Using the image defined
-    global image
+    global image, image_matrix
     # Check for Left Click
     if event == cv2.EVENT_LBUTTONDOWN:
         # OpenCV uses Colours as BGR
         blue, green, red = image[y, x]
         print('<R, G, B> Values at [{}, {}] = <{}, {}, {}>'.format(x, y, red, green, blue))
+        print('From Picture:', red, 'From Matrix:', image_matrix[y][x])
 
 
+def set_intensity_matrix():
+    global image, image_matrix
+    a = image.shape[0]
+    b = image.shape[1]
+    for y in range(0, a):
+        arr = []
+        for x in range(0, b):
+            arr.append(image[y, x][0])
+        image_matrix.append(arr)
+
+
+def print_intensity_matrix():
+    global image_matrix
+    for row in image_matrix:
+        print(row)
+
+
+# Intensity Matrix
+image_matrix = []
 # Path to image/gif/video
-media_path = '../Images/f1.jpeg'
+media_path = '../Images/maradona.jpg'
 # Extract the file extension
 extension = media_path[-3::]
 # Video formats
@@ -30,6 +50,9 @@ if extension not in video_formats:
     print('(Rows, Columns, Channels) = ', image.shape)
     print('Number of Pixels = ', image.size)
     print('Pixel Depth = ', image.dtype)
+    # Set the Matrix
+    set_intensity_matrix()
+    print_intensity_matrix()
     # Display
     while True:
         cv2.imshow("Digital Image Processing", image)
