@@ -1,6 +1,7 @@
 import argparse as ap
 import cv2
 import sys
+import matplotlib.pyplot as plt
 
 
 # Callback Function - On Left Click
@@ -16,7 +17,7 @@ def on_left_click(event, x, y, flags, param):
 
 
 def set_intensity_matrix():
-    global image, image_matrix, int_freq
+    global image, image_matrix
     a = image.shape[0]
     b = image.shape[1]
     for y in range(0, a):
@@ -47,6 +48,29 @@ def set_freq_dict():
             int_freq[j] = int_freq.get(j) + 1
 
 
+def draw_histogram(freq: dict):
+    plt.bar(list(freq.keys()), list(freq.values()), width=0.5)
+    # print(n)
+    plt.title('Frequencies of Pixel Shades')
+    plt.xlabel('Pixel Shade')
+    plt.ylabel('Frequency')
+    plt.show()
+    pass
+
+
+def draw_normalised_histogram():
+    pass
+
+
+def negative_image():
+    global image, image_matrix
+    a = image.shape[0]
+    b = image.shape[1]
+    for y in range(0, a):
+        for x in range(0, b):
+            image[y, x] = 255 - image[y, x][0]
+
+
 # Intensity Matrix
 image_matrix = []
 # Histogram Dict
@@ -72,13 +96,18 @@ if extension not in video_formats:
 
     # Set the Matrix
     set_intensity_matrix()
+    print('Intensity matrix has been set!')
     # Count Frequencies
     set_freq_dict()
-    # print_intensity_matrix()
+    print('Frequencies have been counted!')
+    draw_histogram(int_freq)
 
     # Display
     while True:
         cv2.imshow("Digital Image Processing", image)
+        # ans = input('Would you like to see the Negative Image? (y/n)')
+        # if ans[0] == 'y':
+        # negative_image()
         # Key to Exit
         key = cv2.waitKey(1)
         if key == ord('q'):
