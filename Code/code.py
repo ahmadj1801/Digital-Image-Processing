@@ -18,6 +18,7 @@ def on_left_click(event, x, y, flags, param):
 
 def set_intensity_matrix():
     global image, image_matrix
+    image_matrix = []
     a = image.shape[0]
     b = image.shape[1]
     for y in range(0, a):
@@ -25,6 +26,7 @@ def set_intensity_matrix():
         for x in range(0, b):
             arr.append(image[y, x][0])
         image_matrix.append(arr)
+    print('Intensity matrix has been set!')
 
 
 def print_intensity_matrix():
@@ -37,8 +39,7 @@ def init_freq_dict():
     global int_freq
     int_freq = dict().fromkeys(range(0, 256))
     for i in int_freq:
-        if int_freq.get(i) is None:
-            int_freq[i] = 0
+        int_freq[i] = 0
 
 
 def set_freq_dict():
@@ -46,11 +47,11 @@ def set_freq_dict():
     for i in image_matrix:
         for j in i:
             int_freq[j] = int_freq.get(j) + 1
+    print('Frequencies have been counted!')
 
 
 def draw_histogram(freq: dict):
     plt.bar(list(freq.keys()), list(freq.values()), width=0.5)
-    # print(n)
     plt.title('Frequencies of Pixel Shades')
     plt.xlabel('Pixel Shade')
     plt.ylabel('Frequency')
@@ -69,6 +70,56 @@ def negative_image():
     for y in range(0, a):
         for x in range(0, b):
             image[y, x] = 255 - image[y, x][0]
+    set_intensity_matrix()
+    init_freq_dict()
+    set_freq_dict()
+    draw_histogram(int_freq)
+
+
+def threshold_image():
+    global image, image_matrix, int_freq
+    global_threshold = 128
+    a = image.shape[0]
+    b = image.shape[1]
+    for y in range(0, a):
+        for x in range(0, b):
+            pixel_value = image[y, x][0]
+            if pixel_value > global_threshold:
+                image[y, x] = 255
+            else:
+                image[y, x] = 0
+    set_intensity_matrix()
+    init_freq_dict()
+    set_freq_dict()
+    draw_histogram(int_freq)
+
+
+def histogram_equalization():
+    # Formula = [256/Num Pixels] . [Sum(all intensities until j)]
+    global total_pixels, int_freq
+    prefix = 255/total_pixels
+    # We have 256 intensities
+    # Create and array of 256
+    # Iterate through dict and calc values -> convert to int
+    # Loop through image pixels and alter according to array
+    equalization = []
+    for shade in range(0, 256):
+        equalization_sum = 0
+        for value in range(shade + 1):
+            equalization_sum = equalization_sum + (255 * (int_freq.get(value)/total_pixels))
+        equalization.append(int(round(equalization_sum)))
+
+    a = image.shape[0]
+    b = image.shape[1]
+    for y in range(0, a):
+        for x in range(0, b):
+            pixel_value = image[y, x][0]
+            image[y, x] = equalization[pixel_value]
+    set_intensity_matrix()
+    init_freq_dict()
+    set_freq_dict()
+    draw_histogram(int_freq)
+    pass
 
 
 # Intensity Matrix
@@ -91,15 +142,15 @@ if extension not in video_formats:
     cv2.setMouseCallback("Digital Image Processing", on_left_click)
     image = cv2.imread(media_path)
     print('(Rows, Columns, Channels) = ', image.shape)
-    print('Number of Pixels = ', image.size)
+    total_pixels = image.shape[0] * image.shape[1]
+    print('Number of Pixels = ', total_pixels)
     print('Pixel Depth = ', image.dtype)
 
     # Set the Matrix
     set_intensity_matrix()
-    print('Intensity matrix has been set!')
     # Count Frequencies
     set_freq_dict()
-    print('Frequencies have been counted!')
+    # Draw the Histogram based on frequencies per shade
     draw_histogram(int_freq)
 
     # Display
@@ -111,6 +162,12 @@ if extension not in video_formats:
             break
         elif key == ord('n'):
             negative_image()
+        elif key == ord('t'):
+            threshold_image()
+        elif key == ord('e'):
+            histogram_equalization()
+        elif key == ord('h'):
+            histogram_equalization()
         else:
             pass
 else:
