@@ -78,7 +78,9 @@ def negative_image():
 
 def threshold_image():
     global image, image_matrix, int_freq
+    # Halfway value as the threshold
     global_threshold = 128
+    # Rows and Columns
     a = image.shape[0]
     b = image.shape[1]
     for y in range(0, a):
