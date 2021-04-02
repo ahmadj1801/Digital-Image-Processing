@@ -106,14 +106,18 @@ def histogram_equalization():
     for shade in range(0, 256):
         equalization_sum = 0
         for value in range(shade + 1):
+            # Equalization Formula
             equalization_sum = equalization_sum + (255 * (int_freq.get(value)/total_pixels))
+        # Add to table
         equalization.append(int(round(equalization_sum)))
-
+    # Rows and Columns
     a = image.shape[0]
     b = image.shape[1]
     for y in range(0, a):
         for x in range(0, b):
+            # The pixel shade
             pixel_value = image[y, x][0]
+            # Look in table to get value
             image[y, x] = equalization[pixel_value]
     set_intensity_matrix()
     init_freq_dict()
