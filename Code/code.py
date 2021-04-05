@@ -153,7 +153,7 @@ def gamma_law():
     row = image.shape[0]
     col = image.shape[1]
     # Power transform. c is 30. For dark images use gamma less than 0.
-    intensities = [(int(255 * math.pow(x/255, 0.5))) for x in range(0, 256)]
+    intensities = [(int(255 * math.pow(x/255, 0.4))) for x in range(0, 256)]
     print(intensities)
     for y in range(0, row):
         for x in range(0, col):
@@ -184,7 +184,7 @@ int_freq = dict()
 init_freq_dict()
 
 # Path to image/gif/video
-media_path = '../Images/leaf.jpg'
+media_path = '../Images/pic.PNG'
 # Extract the file extension
 extension = media_path[-3::]
 # Video formats
