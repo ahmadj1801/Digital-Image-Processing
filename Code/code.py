@@ -130,6 +130,7 @@ def histogram_equalization():
 
 
 def log_processing():
+    global image, int_freq
     row = image.shape[0]
     col = image.shape[1]
     intensities = [(int(45 * math.log(1 + x))) for x in range(0, 256)]
@@ -146,11 +147,29 @@ def log_processing():
 
 
 def gamma_law():
+    global image, int_freq
     row = image.shape[0]
     col = image.shape[1]
-    intensities = [(int(1 * math.pow(x, 0.4))) for x in range(0, 256)]
+    intensities = [(int(30 * math.pow(x, 0.4))) for x in range(0, 256)]
     print(intensities)
+    for y in range(0, row):
+        for x in range(0, col):
+            shade = image[y, x][0]
+            image[y, x] = intensities[shade]
+    set_intensity_matrix()
+    init_freq_dict()
+    set_freq_dict()
+    draw_histogram(int_freq)
     pass
+
+
+def original_image():
+    global image, media_path
+    image = cv2.imread(media_path)
+    set_intensity_matrix()
+    init_freq_dict()
+    set_freq_dict()
+    draw_histogram(int_freq)
 
 
 # Intensity Matrix
@@ -191,6 +210,8 @@ if extension not in video_formats:
         key = cv2.waitKey(1)
         if key == ord('q'):
             break
+        elif key == ord('o'):
+            original_image()
         elif key == ord('n'):
             negative_image()
         elif key == ord('t'):
