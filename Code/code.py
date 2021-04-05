@@ -2,6 +2,7 @@ import argparse as ap
 import cv2
 import sys
 import matplotlib.pyplot as plt
+import math
 
 
 # Callback Function - On Left Click
@@ -99,7 +100,7 @@ def threshold_image():
 def histogram_equalization():
     # Formula = [256/Num Pixels] . [Sum(all intensities until j)]
     global total_pixels, int_freq
-    prefix = 255/total_pixels
+    prefix = 255 / total_pixels
     # We have 256 intensities
     # Create and array of 256
     # Iterate through dict and calc values -> convert to int
@@ -109,7 +110,7 @@ def histogram_equalization():
         equalization_sum = 0
         for value in range(shade + 1):
             # Equalization Formula
-            equalization_sum = equalization_sum + (255 * (int_freq.get(value)/total_pixels))
+            equalization_sum = equalization_sum + (255 * (int_freq.get(value) / total_pixels))
         # Add to table
         equalization.append(int(round(equalization_sum)))
     # Rows and Columns
@@ -128,6 +129,26 @@ def histogram_equalization():
     pass
 
 
+def log_processing():
+    row = image.shape[0]
+    col = image.shape[1]
+    intensities = [(int(45 * math.log(1 + x))) for x in range(0, 256)]
+    for y in range(0, row):
+        for x in range(0, col):
+            shade = image[y, x][0]
+            image[y, x] = intensities[shade]
+    print(intensities)
+    pass
+
+
+def gamma_law():
+    row = image.shape[0]
+    col = image.shape[1]
+    intensities = [(int(1 * math.pow(x, 0.4))) for x in range(0, 256)]
+    print(intensities)
+    pass
+
+
 # Intensity Matrix
 image_matrix = []
 # Histogram Dict
@@ -135,7 +156,7 @@ int_freq = dict()
 init_freq_dict()
 
 # Path to image/gif/video
-media_path = '../Images/leaf.jpg'
+media_path = '../Images/lincoln.jpg'
 # Extract the file extension
 extension = media_path[-3::]
 # Video formats
@@ -170,10 +191,12 @@ if extension not in video_formats:
             negative_image()
         elif key == ord('t'):
             threshold_image()
-        elif key == ord('e'):
-            histogram_equalization()
         elif key == ord('h'):
             histogram_equalization()
+        elif key == ord('l'):
+            log_processing()
+        elif key == ord('g'):
+            gamma_law()
         else:
             pass
 else:
