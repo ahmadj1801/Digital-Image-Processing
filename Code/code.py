@@ -138,6 +138,10 @@ def log_processing():
             shade = image[y, x][0]
             image[y, x] = intensities[shade]
     print(intensities)
+    set_intensity_matrix()
+    init_freq_dict()
+    set_freq_dict()
+    draw_histogram(int_freq)
     pass
 
 
@@ -156,7 +160,7 @@ int_freq = dict()
 init_freq_dict()
 
 # Path to image/gif/video
-media_path = '../Images/lincoln.jpg'
+media_path = '../Images/leaf.jpg'
 # Extract the file extension
 extension = media_path[-3::]
 # Video formats
