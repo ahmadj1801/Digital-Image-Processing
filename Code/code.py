@@ -51,9 +51,9 @@ def set_freq_dict():
     print('Frequencies have been counted!')
 
 
-def draw_histogram(freq: dict):
+def draw_histogram(freq: dict, title):
     plt.bar(list(freq.keys()), list(freq.values()), width=0.5)
-    plt.title('Frequencies of Pixel Shades')
+    plt.title(title)
     plt.xlabel('Pixel Shade')
     plt.ylabel('Frequency')
     plt.show()
@@ -74,7 +74,7 @@ def negative_image():
     set_intensity_matrix()
     init_freq_dict()
     set_freq_dict()
-    draw_histogram(int_freq)
+    draw_histogram(int_freq, 'Negative Image - Frequencies of Pixel Shades')
 
 
 def threshold_image():
@@ -94,7 +94,7 @@ def threshold_image():
     set_intensity_matrix()
     init_freq_dict()
     set_freq_dict()
-    draw_histogram(int_freq)
+    draw_histogram(int_freq, 'Thresholding Image - Frequencies of Pixel Shades')
 
 
 def histogram_equalization():
@@ -125,7 +125,7 @@ def histogram_equalization():
     set_intensity_matrix()
     init_freq_dict()
     set_freq_dict()
-    draw_histogram(int_freq)
+    draw_histogram(int_freq, 'Histogram Equalization - Frequencies of Pixel Shades')
     pass
 
 
@@ -133,16 +133,18 @@ def log_processing():
     global image, int_freq
     row = image.shape[0]
     col = image.shape[1]
+    # Table lookup of log transforms. c is 45 in this case. For dark images
     intensities = [(int(45 * math.log(1 + x))) for x in range(0, 256)]
     for y in range(0, row):
         for x in range(0, col):
+            # Manipulating the Image
             shade = image[y, x][0]
             image[y, x] = intensities[shade]
     print(intensities)
     set_intensity_matrix()
     init_freq_dict()
     set_freq_dict()
-    draw_histogram(int_freq)
+    draw_histogram(int_freq, 'Log Law - Frequencies of Pixel Shades')
     pass
 
 
@@ -150,26 +152,29 @@ def gamma_law():
     global image, int_freq
     row = image.shape[0]
     col = image.shape[1]
+    # Power transform. c is 30. For dark images use gamma less than 0.
     intensities = [(int(30 * math.pow(x, 0.4))) for x in range(0, 256)]
     print(intensities)
     for y in range(0, row):
         for x in range(0, col):
+            # Manipulation of Image
             shade = image[y, x][0]
             image[y, x] = intensities[shade]
     set_intensity_matrix()
     init_freq_dict()
     set_freq_dict()
-    draw_histogram(int_freq)
+    draw_histogram(int_freq, 'Gamma Law - Frequencies of Pixel Shades')
     pass
 
 
 def original_image():
     global image, media_path
+    # Restore Image to original form
     image = cv2.imread(media_path)
     set_intensity_matrix()
     init_freq_dict()
     set_freq_dict()
-    draw_histogram(int_freq)
+    draw_histogram(int_freq, 'Original Image - Frequencies of Pixel Shades')
 
 
 # Intensity Matrix
@@ -201,7 +206,7 @@ if extension not in video_formats:
     # Count Frequencies
     set_freq_dict()
     # Draw the Histogram based on frequencies per shade
-    draw_histogram(int_freq)
+    draw_histogram(int_freq, 'Original Image - Frequencies of Pixel Shades')
 
     # Display
     while True:
