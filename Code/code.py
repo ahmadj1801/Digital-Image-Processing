@@ -134,7 +134,7 @@ def log_processing():
     row = image.shape[0]
     col = image.shape[1]
     # Table lookup of log transforms. c is 45 in this case. For dark images
-    intensities = [(int(45 * math.log(1 + x))) for x in range(0, 256)]
+    intensities = [(int(255 * math.log(1 + x/255))) for x in range(0, 256)]
     for y in range(0, row):
         for x in range(0, col):
             # Manipulating the Image
@@ -184,7 +184,7 @@ int_freq = dict()
 init_freq_dict()
 
 # Path to image/gif/video
-media_path = '../Images/pic.PNG'
+media_path = '../Images/leaf.jpg'
 # Extract the file extension
 extension = media_path[-3::]
 # Video formats
