@@ -184,7 +184,7 @@ int_freq = dict()
 init_freq_dict()
 
 # Path to image/gif/video
-media_path = '../Images/leaf.jpg'
+media_path = '../Images/dark_beans.PNG'
 # Extract the file extension
 extension = media_path[-3::]
 # Video formats
